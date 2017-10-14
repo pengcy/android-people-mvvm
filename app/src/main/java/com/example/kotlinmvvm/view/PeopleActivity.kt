@@ -17,22 +17,22 @@ import java.util.*
 
 class PeopleActivity : AppCompatActivity(), Observer {
 
-    private var peopleActivityBinding: PeopleActivityBinding? = null
-    private var peopleViewModel: PeopleViewModel? = null
+    private lateinit var peopleActivityBinding: PeopleActivityBinding
+    private lateinit var peopleViewModel: PeopleViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initDataBinding()
-        setSupportActionBar(peopleActivityBinding!!.toolbar)
-        setupListPeopleView(peopleActivityBinding!!.listPeople)
+        setSupportActionBar(peopleActivityBinding.toolbar)
+        setupListPeopleView(peopleActivityBinding.listPeople)
         setupObserver(peopleViewModel)
     }
 
     private fun initDataBinding() {
         peopleActivityBinding = DataBindingUtil.setContentView(this, R.layout.people_activity)
         peopleViewModel = PeopleViewModel(this)
-        peopleActivityBinding!!.setMainViewModel(peopleViewModel)
+        peopleActivityBinding.setMainViewModel(peopleViewModel)
     }
 
     private fun setupListPeopleView(listPeople: RecyclerView) {
@@ -41,13 +41,13 @@ class PeopleActivity : AppCompatActivity(), Observer {
         listPeople.layoutManager = LinearLayoutManager(this)
     }
 
-    fun setupObserver(observable: Observable?) {
-        observable!!.addObserver(this)
+    fun setupObserver(observable: Observable) {
+        observable.addObserver(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        peopleViewModel!!.reset()
+        peopleViewModel.reset()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,7 +69,7 @@ class PeopleActivity : AppCompatActivity(), Observer {
 
     override fun update(observable: Observable, data: Any?) {
         if (observable is PeopleViewModel) {
-            val peopleAdapter = peopleActivityBinding!!.listPeople.getAdapter() as PeopleAdapter
+            val peopleAdapter = peopleActivityBinding.listPeople.getAdapter() as PeopleAdapter
             val peopleViewModel = observable as PeopleViewModel
             peopleAdapter.setPeopleList(peopleViewModel.getPeopleList())
         }

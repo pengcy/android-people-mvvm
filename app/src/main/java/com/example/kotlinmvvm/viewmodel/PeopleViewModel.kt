@@ -89,6 +89,5 @@ class PeopleViewModel(private var context: Context) : Observable() {
     fun reset() {
         unSubscribeFromObservable()
         compositeDisposable = null
-//        context = null
     }
 }
